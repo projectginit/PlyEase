@@ -1,0 +1,11 @@
+.grain-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      10deg,
+      transparent,
+      transparent 7px,
+      rgba(255,255,255,0.15) 7px,
+      rgba(255,255,255,0.15) 8px
+    );
+  }
