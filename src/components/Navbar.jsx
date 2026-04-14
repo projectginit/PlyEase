@@ -1,14 +1,32 @@
 import { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
     setIsMenuOpen(false)
+
+    if (location.pathname !== '/') {
+      navigate('/')
+      setTimeout(() => {
+        const element = document.getElementById(sectionId)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 100)
+    } else {
+      if (sectionId === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        const element = document.getElementById(sectionId)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      }
+    }
   }
 
   const toggleMenu = () => {
@@ -22,7 +40,11 @@ export default function Navbar() {
           {/* Logo */}
           <div className='flex-shrink-0'>
             <button
-              onClick={() => scrollToSection('home')}
+              onClick={() => {
+                navigate('/')
+                window.scrollTo(0, 0)
+                setIsMenuOpen(false)
+              }}
               className='text-3xl font-bold font-display text-wood hover:text-wood-dark transition-colors cursor-pointer'
             >
               PlyEase

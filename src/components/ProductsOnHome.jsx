@@ -1,13 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { productsData } from '../data/products';
 
-const products = [
-  { name:'Commercial BWR Ply',    meta:'18mm · Grade A · BWR',       price:'₹85',  unit:'/sq ft', cat:'ply',      bg:'linear-gradient(135deg,#C49A6C,#8B5E3C)',  grain:true  },
-  { name:'Teak Face Veneer Ply',  meta:'12mm · Premium Grade · MR',  price:'₹120', unit:'/sq ft', cat:'ply',      bg:'linear-gradient(135deg,#9B6E40,#3D2A14)',  grain:true  },
-  { name:'White Marble Finish',   meta:'1mm · High Gloss',           price:'₹45',  unit:'/sq ft', cat:'laminate', bg:'linear-gradient(135deg,#F0EDE8,#B8B0A4)',  grain:false },
-  { name:'Forest Green Matte',    meta:'1mm · Matte · Anti-fingerprint', price:'₹52', unit:'/sq ft', cat:'laminate', bg:'linear-gradient(135deg,#8FAF78,#2E5D3B)', grain:false },
-  { name:'Natural Oak Veneer',    meta:'0.6mm · Crown Cut · Raw',    price:'₹30',  unit:'/sq ft', cat:'veneer',   bg:'linear-gradient(135deg,#E8C99A,#8B5E3C)',  grain:true  },
-  { name:'Fire Retardant Board',  meta:'19mm · IS:5509 Certified',   price:'₹140', unit:'/sq ft', cat:'ply',      bg:'linear-gradient(135deg,#D4B896,#6B4A28)',  grain:true  },
-];
+const products = productsData.slice(0, 6);
 
 const FILTERS = ['all', 'ply', 'laminate', 'veneer'];
 const LABELS  = { all:'All Products', ply:'Plywood', laminate:'Laminates', veneer:'Veneers' };
@@ -15,6 +10,7 @@ const LABELS  = { all:'All Products', ply:'Plywood', laminate:'Laminates', venee
 export default function Products() {
   const [active, setActive] = useState('all');
   const [toast,  setToast] = useState(null);
+  const navigate = useNavigate();
 
   const filtered = active === 'all' ? products : products.filter(p => p.cat === active);
 
@@ -53,6 +49,10 @@ export default function Products() {
           {filtered.map((p, i) => (
             <div
               key={p.name}
+              onClick={() => {
+                navigate(`/product/${p.id}`);
+                window.scrollTo(0, 0);
+              }}
               className="reveal bg-white rounded-2xl border border-wood/12 overflow-hidden cursor-pointer
                          transition-all duration-250 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-wood/20"
               data-delay={i * 60}
@@ -71,7 +71,7 @@ export default function Products() {
                     {p.price}<span className="font-body text-xs font-normal text-ink-light">{p.unit}</span>
                   </span>
                   <button
-                    onClick={() => addToCart(p.name)}
+                    onClick={(e) => { e.stopPropagation(); addToCart(p.name); }}
                     className="w-7 h-7 bg-wood text-white rounded-lg flex items-center justify-center
                                text-lg leading-none transition-all duration-150 hover:bg-wood-dark hover:scale-110 active:scale-95"
                     aria-label={`Add ${p.name} to cart`}
@@ -85,7 +85,12 @@ export default function Products() {
         </div>
 
         <div className="text-center mt-10 ">
-          <button className="btn-inline-flex items-center gap-2 bg-transparent text-ink border border-wood/25 px-7 py-3
+          <button 
+            onClick={() => {
+              navigate('/products');
+              window.scrollTo(0, 0);
+            }}
+            className="btn-inline-flex items-center gap-2 bg-transparent text-ink border border-wood/25 px-7 py-3
            rounded-xl text-sm font-medium transition-all duration-200
            hover:border-wood-light hover:bg-wood-dark hover:text-cream-mid hover:-translate-y-0.5 cursor-pointer">View Full Catalogue</button>
         </div>
