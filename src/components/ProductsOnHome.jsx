@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { productsData } from '../data/products';
+import { CartContext } from '../context/CartContext';
 
 const products = productsData.slice(0, 6);
 
@@ -11,11 +12,13 @@ export default function Products() {
   const [active, setActive] = useState('all');
   const [toast,  setToast] = useState(null);
   const navigate = useNavigate();
+  const { addToCart: globalAddToCart } = useContext(CartContext);
 
   const filtered = active === 'all' ? products : products.filter(p => p.cat === active);
 
-  const addToCart = (name) => {
-    setToast(name);
+  const addToCart = (product) => {
+    globalAddToCart(product, 1);
+    setToast(product.name);
     setTimeout(() => setToast(null), 2400);
   };
 
@@ -71,7 +74,7 @@ export default function Products() {
                     {p.price}<span className="font-body text-xs font-normal text-ink-light">{p.unit}</span>
                   </span>
                   <button
-                    onClick={(e) => { e.stopPropagation(); addToCart(p.name); }}
+                    onClick={(e) => { e.stopPropagation(); addToCart(p); }}
                     className="w-7 h-7 bg-wood text-white rounded-lg flex items-center justify-center
                                text-lg leading-none transition-all duration-150 hover:bg-wood-dark hover:scale-110 active:scale-95"
                     aria-label={`Add ${p.name} to cart`}

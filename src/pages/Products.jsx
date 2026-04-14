@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { productsData } from '../data/products';
+import { CartContext } from '../context/CartContext';
 
 const allProducts = productsData;
 
@@ -13,11 +14,13 @@ export default function Products() {
   const [active, setActive] = useState('all');
   const [toast, setToast] = useState(null);
   const navigate = useNavigate();
+  const { addToCart: globalAddToCart } = useContext(CartContext);
 
   const filtered = active === 'all' ? allProducts : allProducts.filter(p => p.cat === active);
 
-  const addToCart = (name) => {
-    setToast(name);
+  const addToCart = (product) => {
+    globalAddToCart(product, 1);
+    setToast(product.name);
     setTimeout(() => setToast(null), 2400);
   };
 
@@ -90,7 +93,7 @@ export default function Products() {
                     <span className="font-body text-xs text-ink-light mt-1">{p.unit}</span>
                   </div>
                   <button
-                    onClick={(e) => { e.stopPropagation(); addToCart(p.name); }}
+                    onClick={(e) => { e.stopPropagation(); addToCart(p); }}
                     className="w-10 h-10 bg-cream text-wood border border-wood/20 rounded-full flex items-center justify-center
                                text-2xl leading-none transition-all duration-200 hover:bg-wood hover:text-white hover:border-wood shadow-sm hover:shadow-md hover:scale-110 active:scale-95"
                     aria-label={`Add ${p.name} to cart`}

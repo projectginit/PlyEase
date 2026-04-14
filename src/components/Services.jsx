@@ -1,4 +1,32 @@
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
+
 export default function Services() {
+  const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
+
+  const handleCreateServiceAndAddToCart = (serviceType) => {
+    if (serviceType === 'sampleKit') {
+      addToCart({
+        id: 'service-sample-kit',
+        name: 'Sample Kit (7 ply options)',
+        price: '₹249',
+        image: 'https://images.unsplash.com/photo-1533090635-46aaab38f4d9?q=80&w=2938&auto=format&fit=crop',
+        category: 'Service'
+      }, 1);
+    } else if (serviceType === 'doorstep') {
+      addToCart({
+        id: 'service-doorstep',
+        name: 'Doorstep Assist',
+        price: '₹349',
+        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2940&auto=format&fit=crop',
+        category: 'Service'
+      }, 1);
+    }
+    navigate('/cart');
+  };
+
   return (
     <section id="services" className="w-full bg-white py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,7 +96,9 @@ export default function Services() {
             </div>
 
             {/* CTA Button */}
-            <button className="w-full bg-wood text-cream font-body font-semibold py-3 md:py-4 rounded-full hover:bg-wood-dark transition-colors duration-300">
+            <button 
+              onClick={() => handleCreateServiceAndAddToCart('sampleKit')}
+              className="w-full bg-wood text-cream font-body font-semibold py-3 md:py-4 rounded-full hover:bg-wood-dark transition-colors duration-300">
               Order Sample Kit
             </button>
           </div>
@@ -131,7 +161,9 @@ export default function Services() {
             </div>
 
             {/* CTA Button */}
-            <button className="w-full bg-cream-light text-wood font-body font-semibold py-3 md:py-4 rounded-full hover:bg-cream-mid transition-colors duration-300">
+            <button 
+              onClick={() => handleCreateServiceAndAddToCart('doorstep')}
+              className="w-full bg-cream-light text-wood font-body font-semibold py-3 md:py-4 rounded-full hover:bg-cream-mid transition-colors duration-300">
               Book Doorstep Visit
             </button>
           </div>

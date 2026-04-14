@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { productsData } from '../data/products';
+import { CartContext } from '../context/CartContext';
 
 export default function ProductDetails() {
   const { productId } = useParams();
@@ -10,6 +11,7 @@ export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [toast, setToast] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart: globalAddToCart } = useContext(CartContext);
 
   useEffect(() => {
     const found = productsData.find(p => p.id === productId);
@@ -20,6 +22,7 @@ export default function ProductDetails() {
   if (!product) return null; 
 
   const addToCart = () => {
+    globalAddToCart(product, quantity);
     setToast(product.name);
     setTimeout(() => setToast(null), 2400);
   };
