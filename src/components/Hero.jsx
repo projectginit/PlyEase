@@ -5,7 +5,7 @@ export default function Hero() {
         {/* Badge */}
         <div className='flex justify-start mb-12'>
           <div className='bg-forest-light px-4 py-2 rounded-full inline-block'>
-            <p className='text-sm font-body font-semibold text-forest'>• GST REGISTERED & TRUSTED SINCE DAY ONE</p>
+            <p className='text-sm font-body font-semibold text-forest'>• TRUSTED SINCE DAY ONE</p>
           </div>
         </div>
 
@@ -34,7 +34,7 @@ export default function Hero() {
                 Order a Sample Kit
                 <span className='ml-2 group-hover:translate-x-1 transition-transform'>→</span>
               </button>
-              <button 
+              <button
                 onClick={() => {
                   const element = document.getElementById('process')
                   if (element) {
@@ -73,7 +73,7 @@ export default function Hero() {
               </div>
               <h3 className='text-lg font-display font-bold text-ink mb-2'>Premium Teak Veneer Ply</h3>
               <p className='text-sm font-body text-ink-light mb-4'>18mm · Grade A · 8x4 ft</p>
-              
+
               <div className='mb-4'>
                 <div className='flex justify-between mb-2'>
                   <span className='text-sm font-body text-ink'>Booking Paid (40%)</span>
